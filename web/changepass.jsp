@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Login</title>
+        <title>ChangePassWord</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/png" href="" />
         <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
-      
+
         <link rel="stylesheet" type="text/css" href="css/util.css">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,25 +18,34 @@
 
     <body style="background-color: #666666;">
 
-
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100">
-                    <form class="login100-form validate-form" action="LoginServlet" method="post">
-                        <span class="login100-form-title p-b-43">
-                            Login to continue
+                    <form class="login100-form validate-form" action="changepassServlet" method="post">
+                        <span style="margin-top: -35.5%;margin-bottom: 28px;" class="login100-form-title p-b-43">
+                            Change Password
                         </span>
                         <div class="wrap-input100 validate-input">
-                            <input value="${uname}"  class="input100" type="text"   name="username" required="">
+                            <input class="input100" type="text" name="username" required="">
                             <span class="focus-input100"></span>
                             <span class="label-input100">Username</span>
                         </div>
 
 
                         <div class="wrap-input100 validate-input">
-                            <input value="${upass}" class="input100" type="password"  name="pass" required="">
+                            <input class="input100" type="password"  name="oldpass" required="">
                             <span class="focus-input100"></span>
-                            <span class="label-input100">Password</span>
+                            <span class="label-input100">Old Password</span>
+                        </div>
+                        <div class="wrap-input100 validate-input">
+                            <input class="input100" type="password"   name="newpass" required="">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">New Password</span>
+                        </div>
+                        <div class="wrap-input100 validate-input">
+                            <input class="input100" type="password" name="re-newpass" required="">
+                            <span class="focus-input100"></span>
+                            <span class="label-input100">Re-New Password</span>
                         </div>
                         <div style="margin-top: 10px">
 
@@ -44,38 +53,35 @@
                         </div>
                         <div class="flex-sb-m w-full p-t-3 p-b-32">
                             <div class="contact100-form-checkbox">
-<!--                                <input class="input-checkbox100" id="ckb1" type="checkbox" name="rememberme" value="1">
-                                <label class="label-checkbox100" for="ckb1">
-                                    Remember me
-                                </label>-->
-                                <a href="changepass.jsp" class="txt1">
-                                    Change Password
+
+                                <!--<a href="login.jsp" class="txt1">-->
+
                                 </a>
                             </div>
 
 
                             <div>
-                                <a href="register.jsp" class="txt1">
-                                    Not registered? Create an account
+                                <a href="login.jsp" class="txt1">
+                                    Back to Login
                                 </a>
                             </div>
                         </div>
 
                         <div class="container-login100-form-btn">
                             <button class="login100-form-btn" type="submit">
-                                Login
+                                Change
                             </button>
                         </div>
                     </form>
-                        
 
-                    <div class="login100-more" style="background-image: url('img/bg-02.jpg');">
+
+                    <div class="login100-more" style="background-image: url('img/changepass.jpg');">
                     </div>
                 </div>
             </div>
         </div>
 
-                        
+
         <script type="text/javascript" src="vendor/jquery/jquery-3.2.1.min.js"></script>
         <script src="js/main.js"></script>
 

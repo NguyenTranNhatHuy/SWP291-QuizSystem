@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dao.AccountDAO;
+import dao.CollectionDetailDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,14 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import model.Account;
+import java.util.List;
+import model.CollectionDetail;
 
 /**
  *
  * @author W
  */
-@WebServlet(name = "updateProfile", urlPatterns = {"/updateProfile"})
-public class updateProfile extends HttpServlet {
+@WebServlet(name = "ListCollectionDetailServlet", urlPatterns = {"/ListCollectionDetailServlet"})
+public class ListCollectionDetailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +39,10 @@ public class updateProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateProfile</title>");
+            out.println("<title>Servlet ListCollectionDetailServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet updateProfile at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ListCollectionDetailServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,12 +61,11 @@ public class updateProfile extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String id = request.getParameter("id");
-        AccountDAO dao = new AccountDAO();
+        CollectionDetailDAO dao = new CollectionDetailDAO();
+        List<CollectionDetail> list = dao.getAllCollectionDetail();
 
-        Account p = dao.getAccountById(id);
-        request.setAttribute("detail", p);
-        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
+        request.setAttribute("listCollectionDetail", list);
+        request.getRequestDispatcher("allCollectionView.jsp").forward(request, response);
     }
 
     /**
@@ -79,22 +79,7 @@ public class updateProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        String id = request.getParameter("id");
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String phone = request.getParameter("phonenumber");
-        String email = request.getParameter("mail");
-        String dob = request.getParameter("dob");
-        AccountDAO dao = new AccountDAO();
-
-        dao.updateInfoAccount(id, firstname, lastname, phone, email, dob);
-
-        Account a = dao.getAccountById(id);
-        request.setAttribute("a", a);
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
-//        response.sendRedirect("profileServlet");
-
+        processRequest(request, response);
     }
 
     /**

@@ -91,11 +91,11 @@ public class registerServlet extends HttpServlet {
             Account a = dao.checkAccountExist(user);
             if (a == null) {
                 if (option == 1) {
-                    dao.registerAccount(firstname, lastname, user, pass, phone, email, dob, 1);
+                    dao.registerAccount(firstname, lastname, user, pass, phone, email, dob, 2);
                     response.sendRedirect("login.jsp");
 
                 } else if (option == 2) {
-                    dao.registerAccount(firstname, lastname, user, pass, phone, email, dob, 2);
+                    dao.registerAccount(firstname, lastname, user, pass, phone, email, dob, 1);
                     response.sendRedirect("login.jsp");
                 }
             } else {

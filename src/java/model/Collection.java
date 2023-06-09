@@ -9,58 +9,37 @@ package model;
  * @author Thinh
  */
 public class Collection {
-    private String CollectionID;
-    private String AccountID;
-    private String Name;
-    private int NumberOfQuestion;
+
+    private CollectionDetail collectionDetailId;
+    private Question questionId;
 
     public Collection() {
     }
 
-    public Collection(String CollectionID, String AccountID, String Name, int NumberOfQuestion) {
-        this.CollectionID = CollectionID;
-        this.AccountID = AccountID;
-        this.Name = Name;
-        this.NumberOfQuestion = NumberOfQuestion;
+    public Collection(CollectionDetail collectionDetailId, Question questionId) {
+        this.collectionDetailId = collectionDetailId;
+        this.questionId = questionId;
     }
 
-    public String getCollectionID() {
-        return CollectionID;
+    public CollectionDetail getCollectionDetailId() {
+        return collectionDetailId;
     }
 
-    public void setCollectionID(String CollectionID) {
-        this.CollectionID = CollectionID;
+    public void setCollectionDetailId(CollectionDetail collectionDetailId) {
+        this.collectionDetailId = collectionDetailId;
     }
 
-    public String getAccountID() {
-        return AccountID;
+    public Question getQuestionId() {
+        return questionId;
     }
 
-    public void setAccountID(String AccountID) {
-        this.AccountID = AccountID;
-    }
-
-    public String getName() {
-        return Name;
-    }
-
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
-    public int getNumberOfQuestion() {
-        return NumberOfQuestion;
-    }
-
-    public void setNumberOfQuestion(int NumberOfQuestion) {
-        this.NumberOfQuestion = NumberOfQuestion;
+    public void setQuestionId(Question questionId) {
+        this.questionId = questionId;
     }
 
     @Override
     public String toString() {
-        return "Collection{" + "CollectionID=" + CollectionID + ", AccountID=" + AccountID + ", Name=" + Name + ", NumberOfQuestion=" + NumberOfQuestion + '}';
+        return "Collection{" + "collectionDetailId=" + collectionDetailId + ", questionId=" + questionId + '}';
     }
-    
-    
 
 }

@@ -60,7 +60,7 @@ public class profileServlet extends HttpServlet {
         //processRequest(request, response);
         String id = request.getParameter("pid");
         AccountDAO dao = new AccountDAO();
-        Account a = dao.getAccountbyId(id);
+        Account a = dao.getAccountById(id);
         request.setAttribute("a", a);
         request.getRequestDispatcher("profile.jsp").forward(request, response);
 //        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);

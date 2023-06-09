@@ -5,7 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import model.Collection;
+import model.Question;
 
 public class CollectionDAO {
 
@@ -13,23 +15,41 @@ public class CollectionDAO {
     static PreparedStatement ps;
     static ResultSet rs;
 
-    public static ArrayList<Collection> getListCollections() {
+    public List<Question> getCollectionById(int id) {
+        String sql = "Select * From Collection Where CollectionDetailID = ?";
+        List<Question> list = new ArrayList<>();
+        QuestionDAO questionDAO = new QuestionDAO();
         try {
-            String query = "select * from Collection";
+//            PreparedStatement st = connection.prepareStatement(sql);
             conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            rs = ps.executeQuery();
-            ArrayList<Collection> list = new ArrayList<>();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                Collection a = new Collection(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
-                list.add(a);
+                list.add(questionDAO.getQuestionById(rs.getInt(2)));
             }
-            return list;
         } catch (Exception e) {
-            System.out.println(e);
         }
-        return null;
+        return list;
     }
+
+//    public static ArrayList<Collection> getListCollections() {
+//        try {
+//            String query = "select * from Collection";
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(query);
+//            rs = ps.executeQuery();
+//            ArrayList<Collection> list = new ArrayList<>();
+//            while (rs.next()) {
+//                Collection a = new Collection(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+//                list.add(a);
+//            }
+//            return list;
+//        } catch (Exception e) {
+//            System.out.println(e);
+//        }
+//        return null;
+//    }
 
     public static void insertCollection(String username, String password, String email, String phone) {
         String query = "INSERT INTO Collection([username],[passwords],[email],[phone]) VALUES(?,?,?,?)";
@@ -60,37 +80,37 @@ public class CollectionDAO {
         }
     }
 
-    public static Collection getCollection(String id) {
-        String query = "select * from Collection where CollectionID=?";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setInt(1, Integer.parseInt(id));
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                return new Collection(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
-            }
-        } catch (Exception e) {
-            System.out.println("Hello");
-        }
-        return null;
-    }
+//    public static Collection getCollection(String id) {
+//        String query = "select * from Collection where CollectionID=?";
+//        try {
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(query);
+//            ps.setInt(1, Integer.parseInt(id));
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//                return new Collection(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Hello");
+//        }
+//        return null;
+//    }
 
-    public static Collection getCollectionByName(String name) {
-        String query = "select * from Collection where Name = ?";
-        try {
-            conn = new DBContext().getConnection();
-            ps = conn.prepareStatement(query);
-            ps.setString(1, name);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                return new Collection(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
-            }
-        } catch (Exception e) {
-            System.out.println("Hello");
-        }
-        return null;
-    }
+//    public static Collection getCollectionByName(String name) {
+//        String query = "select * from Collection where Name = ?";
+//        try {
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(query);
+//            ps.setString(1, name);
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//                return new Collection(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Hello");
+//        }
+//        return null;
+//    }
 
     public static int checkName(String name) {
         String query = "select * from Collection where Name = ?";

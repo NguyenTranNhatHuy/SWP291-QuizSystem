@@ -178,24 +178,49 @@ public class AccountDAO {
         }
     }
 
-    public Account getAccountbyId(String id) {
-        String sql = "select * from account\n"
-                + "where AccountID = ?";
+//    public Account getAccountbyId(String id) {
+//        String sql = "select * from account\n"
+//                + "where AccountID = ?";
+//        try {
+//            conn = new DBContext().getConnection();
+//            ps = conn.prepareStatement(sql);
+//            ps.setString(1, id);
+//            rs = ps.executeQuery();
+//            while (rs.next()) {
+//                return new Account(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9));
+//            }
+//
+//        } catch (Exception e) {
+//        }
+//        return null;
+//    }
+    public Account getAccountById(String id) {
+        String sql = "Select * From Account Where AccountID = ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(sql);
             ps.setString(1, id);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                return new Account(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), rs.getInt(9));
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Account acc = new Account(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getInt(9)
+                );
+                return acc;
             }
-
         } catch (Exception e) {
         }
         return null;
     }
-    
-        public void updateInfoAccount(String id, String first, String last, String phone, String email, String dob) {
+
+    public void updateInfoAccount(String id, String first, String last, String phone, String email, String dob) {
         String sql = "update account\n"
                 + "set FirstName=?, LastName=?, Phone=?, Email=?, DOB=?\n"
                 + "where AccountID =?";
@@ -214,15 +239,47 @@ public class AccountDAO {
         }
     }
 
+    public Account checkOldpass(String password, String username) {
+        String sql = "SELECT * FROM account WHERE password = ? and username = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, password);
+            ps.setString(2, username);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return new Account(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(8), 0);
+            }
+
+        } catch (Exception e) {
+        }
+        return null;
+    }
+
+    public void changepass(String pass, String username) {
+        String sql = "update account\n"
+                + "set Password=?\n"
+                + "where username =?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, pass);
+            ps.setString(2, username);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+    }
 
     public static void main(String[] args) {
 //        System.out.println(getListAccounts().get(1).toString()); 
 //        insertAccount("111","Nguyen Tien Thinh","111","111","111"); 
 //        deleteAccount("6"); 
-           AccountDAO dao = new AccountDAO();
-           dao.updateInfoAccount("6", "Huy", "Nhat", "0794615827", "ntnh@gmail.com", "");
-//        System.out.println(getAccountbyId("1"));
-//            updateAccount(4,"Nguyen Tien Thinh","1","111","Nguyen Tien Thinh");
-//            System.out.println(checkName("ABC"));
+        AccountDAO dao = new AccountDAO();
+//        dao.updateInfoAccount("6", "Huy", "Nhat", "0794615827", "ntnh@gmail.com", "");
+        Account a = dao.checkOldpass("123", "thinhquoc"); 
+        System.out.println(a);
+                //            updateAccount(4,"Nguyen Tien Thinh","1","111","Nguyen Tien Thinh");
+                //            System.out.println(checkName("ABC"));
     }
 }

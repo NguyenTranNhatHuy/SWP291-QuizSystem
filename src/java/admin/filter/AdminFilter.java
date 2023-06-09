@@ -44,18 +44,34 @@ public class AdminFilter implements Filter {
 //        } else {
 //            chain.doFilter(request, response);
 //        }
+//        HttpServletRequest req = (HttpServletRequest) request;
+//        HttpServletResponse res = (HttpServletResponse) response;
+//        HttpSession session = req.getSession();
+//        Account user = (Account) session.getAttribute("accountS");
+//        if (user == null) {
+//            res.sendRedirect("login.jsp");
+//            return;
+//        }
+//        if (user.getUsername().trim().equals("nhathuy")) {
+//            chain.doFilter(request, response);
+//        } else {
+//            res.sendRedirect("login.jsp");
+//        }
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
         HttpSession session = req.getSession();
-        Account user = (Account) session.getAttribute("accountS");
-        if (user == null) {
-            res.sendRedirect("login.jsp");
-            return;
+        if(session.getAttribute("accountS") == null){
+            res.sendRedirect("LoginServlet");
         }
-        if (user.getUsername().trim().equals("nhathuy")) {
+        Throwable problem = null;
+        try {
             chain.doFilter(request, response);
-        } else {
-            res.sendRedirect("login.jsp");
+        } catch (Throwable t) {
+            // If an exception is thrown somewhere down the filter chain,
+            // we still want to execute our after processing, and then
+            // rethrow the problem after that.
+            problem = t;
+            t.printStackTrace();
         }
 
     }

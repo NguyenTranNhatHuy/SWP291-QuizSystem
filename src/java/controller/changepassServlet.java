@@ -18,8 +18,8 @@ import model.Account;
  *
  * @author W
  */
-@WebServlet(name = "updateProfile", urlPatterns = {"/updateProfile"})
-public class updateProfile extends HttpServlet {
+@WebServlet(name = "changepassServlet", urlPatterns = {"/changepassServlet"})
+public class changepassServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,10 +38,10 @@ public class updateProfile extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet updateProfile</title>");
+            out.println("<title>Servlet changepassServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet updateProfile at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet changepassServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,13 +59,8 @@ public class updateProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-        String id = request.getParameter("id");
-        AccountDAO dao = new AccountDAO();
-
-        Account p = dao.getAccountById(id);
-        request.setAttribute("detail", p);
-        request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
+        // processRequest(request, response);
+        request.getRequestDispatcher("changepass.jsp").forward(request, response);
     }
 
     /**
@@ -80,20 +75,27 @@ public class updateProfile extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-        String id = request.getParameter("id");
-        String firstname = request.getParameter("firstname");
-        String lastname = request.getParameter("lastname");
-        String phone = request.getParameter("phonenumber");
-        String email = request.getParameter("mail");
-        String dob = request.getParameter("dob");
+        String username = request.getParameter(("username"));
+        String oldpass = request.getParameter(("oldpass"));
+        String newpass = request.getParameter(("newpass"));
+        String renewpass = request.getParameter("re-newpass");
         AccountDAO dao = new AccountDAO();
+        Account a = dao.checkAccountExist(username);
+        Account b = dao.checkOldpass(oldpass, username);
 
-        dao.updateInfoAccount(id, firstname, lastname, phone, email, dob);
-
-        Account a = dao.getAccountById(id);
-        request.setAttribute("a", a);
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
-//        response.sendRedirect("profileServlet");
+        if (a == null) {
+            request.setAttribute("err", "Account does not exist");
+            request.getRequestDispatcher("changepass.jsp").forward(request, response);
+        } else if (b != null && newpass.equals(renewpass) && !newpass.equals(oldpass)) {
+            dao.changepass(newpass, username);
+            response.sendRedirect("login.jsp");
+        } else if (!newpass.equals(renewpass) && b != null) {
+            request.setAttribute("err", "Password authentication is not correct");
+            request.getRequestDispatcher("changepass.jsp").forward(request, response);
+        } else if (newpass.equals(oldpass) && b != null) {
+            request.setAttribute("err", "The new password matches the old password.");
+            request.getRequestDispatcher("changepass.jsp").forward(request, response);
+        }
 
     }
 

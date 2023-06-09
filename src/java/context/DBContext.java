@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 
 public class DBContext {
     private final String servername = "localhost";
-    private final String dbName = "System";
+    private final String dbName = "ExamSystem";
     private final String portNumber = "1433";
     private final String instance = "";
     private final String userID = "sa";
